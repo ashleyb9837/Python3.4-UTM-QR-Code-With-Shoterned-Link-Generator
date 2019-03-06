@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+    {% block body %}
+        {% if session.logged_in %}
+<form action="{{ url_for('urlshort') }}" method=post class=urlshort-entry>
+    <dt>URL:</dt>
+    <dd><input type=text size=30 name="longurl" required></dd>
+</form>
+        {% endif %}
+    {% endblock %}

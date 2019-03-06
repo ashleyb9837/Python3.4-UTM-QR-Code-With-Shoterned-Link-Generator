@@ -1,0 +1,153 @@
+<!-- This template extends the layout.html template from above to display the messages. Note that the for loop iterates over the messages we passed in with the render_template() function. Notice that the form is configured to to submit to the add_entry view function and use POST as HTTP method:-->
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+<style>
+    body, .page{
+        background:{{ bgcolour }};
+    }
+    .page{
+    background-color:{{ pagecol }};
+    }
+    p, .theform{
+        color:{{ textcol }}
+    }
+
+</style>
+<div><p>{{ the_current_time }}</p></div>
+
+    <p id="qrtext"> Your QRCode is: </p>
+		<img src="https://api.qrserver.com/v1/create-qr-code/?data={{ json_object_qrcodeimg }}&size=175x175&format=svg" alt="" title="" />
+<div class="theform">
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+        <dl>
+            <dt>URL: (Required)
+            <dd><input type=text size=30 name=url required>
+            <dt>Campaign Source: (Required)
+            <dd><textarea name=CampaignSource rows=1 cols=40 required></textarea>
+            <dt>Campaign Medium: (Required)
+            <dd><textarea name=CampaignMedium rows=1 cols=40 required></textarea>
+            <dt>Campaign Name: (Required)
+            <dd><textarea name=CampaignName rows=1 cols=40 required></textarea>
+            <dt>terms: (Optional)
+            <dd><input type=text size=30 name=CampaignTerms>
+            <dt>Campaign Content: (Optional)
+            <dd><textarea name=CampaignContent rows=1 cols=40></textarea>
+            <dd><input type=submit value=Share>
+        </dl>
+    </form>
+{% endif %}
+
+   <form id="creation" name="creation" onchange="handleSelect()">
+        <datalist id="urllistonly"></datalist>
+        <dt>URL:</dt>
+        <dd><option value="url" name="url"></option></dd>
+    </form>
+<ul class=entriesdd>
+    <!-- entry in paragrapth displays all elements listed in DB -->
+    {% for entry in entries %}
+    <p>{{ entry.url }}</p>
+    {% endfor %}
+     <!-- for each entry in entries db table,, entry.campaignterms inserts data into database and displays them on page -->
+        <form action="{{ url_for('show_entries_in_ddmenu') }}" method="post">
+                <dl>
+<!--DISPLAY ALL DATA FROM DATABASE IN 1 DROPDOWN FIELD -->
+               <select onchange="return showcampmed();" name="utmlistingurl" id="urlSelect" class="list">
+                    <datalist id="utmlisting"></datalist>
+                   <option label=" "></option>
+                   {% for entry in entries %}
+                    <dt>URL:
+                <dd><option id="url"  class="list" value="url">{{ entry.url }}</option></dd>
+                       {% endfor %}
+                <input type="submit" value="clickme">
+                    </select>
+
+
+                    <select name="utmlistcampmed" id="campmedSelect" class="list">
+                        <option label=" "></option>
+                        {% for entry in entries %}
+                <dd><option value="{{ entry.CampaignMedium }}">&utm_medium={{ entry.CampaignMedium }}</option></dd>
+                {% endfor %}
+                    </select>
+
+
+            <select id="utmlistcampsource" name="source" class="list">
+                <datalist id="utmlisting"></datalist>
+                <option label=" "></option>
+                {% for entry in entries %}
+                <dd><option value="cmedum">&utm_source={{ entry.CampaignSource }}</option></dd>
+                {% endfor %}
+            </select>
+
+
+                                <select id="utmlistcampname" name="cname" class="list" onchange="getSelectValue();">
+                <datalist id="utmlisting"></datalist>
+                                    <option label=" "></option>
+                {% for entry in entries %}
+                <dd><option value="cmedum">&utm_name={{ entry.CampaignName }}</option></dd>
+                {% endfor %}
+            </select>
+
+
+                                <select id="utmlistcampcontent" name="ccontent" class="list" onchange="getSelectValue();">
+                <datalist id="utmlisting"></datalist>
+                                    <option label=" "></option>
+                {% for entry in entries %}
+                <dd><option value="cmedum">&utm_content={{ entry.CampaignContent }}</option></dd>
+                {% endfor %}
+            </select>
+
+
+                                <select id="utmlistcampterms" name="cterms" class="list" onchange="getSelectValue();">
+                <datalist id="utmlisting"></datalist>
+                                    <option label=" "></option>
+                {% for entry in entries %}
+                <dd><option value="cmedum">&utm_terms={{ entry.CampaignTerms }}</option></dd>
+                {% endfor %}
+            </select>
+
+
+                </dl>
+        </form>
+        </li>
+
+
+<!--<div id="outcomeUrl">
+    Selected URL: <span></span>
+</div>
+
+    <div id="outcomeCM">
+     <span></span>
+</div>
+
+        <div id="outcomeS">
+     <span></span>
+</div>
+
+
+        <div id="outcomeN">
+     <span></span>
+</div>
+
+        <div id="outcomeCContent">
+    <span></span>
+</div>
+
+        <div id="outcomeTerms">
+    <span></span>
+</div>-->
+
+    <ul class=entries>
+    {% for entry in entries %} <!-- for each entry in entries db table,, entry.campaignterms inserts data into database and displays them on page -->
+        <!--<li><h2></h2><select>url=<option>{{ entry.url }}</option></select><select><option>&utm_medium={{ entry.CampaignMedium|safe }}</option></select><select><option>&utm_source={{ entry.CampaignSource|safe }}</option></select><select><option>&utm_campaignName={{ entry.CampaignName|safe }}</option></select></li>-->
+    {% else %}
+    {% if utm_link %}
+
+<p>{{utm_link}}</p>
+
+{% endif %}
+    <!--<li><em>Unbelievable.No entries here so far</em></li>-->
+        {% endfor %}</ul>
+    <!--<li><em>Unbelievable.No entries here so far</em></li>-->
+</ul></div><
+{% endblock %}

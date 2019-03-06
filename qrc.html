@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+    <!--<form action="{{ url_for('qr_entry') }}" method=post class=qr-entry>
+
+        <div id="demo"></div>
+        <div id="qr-example"></div>
+<input type="text" value="http://ourcodeworld.com" id="gn-val" name="uurl"/>
+<input type="button" value="Generate QRCode" id="gn-btn"/>
+			<script>
+jQuery("#demo1").qrcode({
+    //render:"table"
+    width: 128,
+    height: 128,
+    text: "http://ourcodeworld.com"
+});
+	</script>
+    </form>-->
+{% endif %}
+{% endblock %}
+

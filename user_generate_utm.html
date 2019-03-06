@@ -1,0 +1,26 @@
+<!-- This template extends the layout.html template from above to display the messages. Note that the for loop iterates over the messages we passed in with the render_template() function. Notice that the form is configured to to submit to the add_entry view function and use POST as HTTP method:-->
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+    <form action="{{ url_for('list_entry') }}" method=post class=list-entry>
+        <dl>
+            <select name="title" size="3">
+                <option value="campaignMedium"></option>
+                <option value="CampaignSource"></option>
+                <option value="CampaignName"></option>
+                <option value="CampaignContent"></option>
+            </select>
+            <dt>url:
+            <dd><textarea name=urlfield rows=5 cols=40></textarea>
+            <dd><input type=submit value=Generate>
+        </dl>
+    </form>
+{% endif %}
+<ul class=entries>
+    {% for entry in entries %}
+    <li><h2>{{ entry.title  }}</h2>{{ entry.CampaignMedium|safe  }} {{ entry.CampaignSource|safe  }} {{ entry.CampaignName|safe  }} {{ entry.CampaignContent|safe  }}
+    {% else %}
+        <li><em>Unbelievable.No entries here so far</em>
+    {% endfor %}
+</ul>
+{% endblock %}

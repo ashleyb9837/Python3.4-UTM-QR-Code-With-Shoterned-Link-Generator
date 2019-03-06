@@ -1,0 +1,50 @@
+<!doctype html>
+<title>Flask</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}" id="theme">
+<link rel="stylesheet" href="{{ url_for('static', filename='dark_stylesheet.css') }}" id="theme">
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<script src="static/javascript.js"></script>
+<!--<script src="static/javascript.js"></script>-->
+<!-- jquery 1.11.2 used for QR Code Compatibility
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='jquery.qrcode.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript.js') }}"></script>-->
+<script>
+document.getElementById('switch').onclick = function() {
+  if (document.getElementById('theme').href == "dark_stylesheet.css") {
+    document.getElementById('theme').href = "style.css";
+  } else {
+    document.getElementById('theme').href = "dark_stylesheet.css";
+  }
+};</script>
+<div class=page>
+    <h1>Flaskr</h1>
+    <div class=metanav>
+{% if not session.logged_in %}
+	<a href="{{url_for('login') }}">login</a>
+{% else %}
+	<a href="{{url_for('logout') }}">logout</a>
+	{% endif %}
+</div>
+	 <!-- bracket names need to be taken from the def function name -->
+	<a href="{{url_for('shorten_url') }}">Shorten a URL and Generate a QR Code</a>
+{% for message in get_flashed_messages() %}
+	<div class=flash>{{ message }}</div>
+	{% endfor %}
+
+	        <div>
+            <input type="button" value="Light/Dark" id="toggle-theme" />
+            <label for="darkness">
+                Darkness
+            </label>
+            <input type="range" id="darknessSlider" name="darkness" min="0.45" max="1" value="1" step="0.1" />
+        </div>
+        <div>
+
+    <button name="switch_theme" id="switch">Switch Theme</button>
+    </div>
+	{% block body %}{% endblock %}
+    </div>
+
+
+

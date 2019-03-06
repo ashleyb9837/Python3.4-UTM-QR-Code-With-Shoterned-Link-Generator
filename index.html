@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!--ADDED ON 15/01/2019 -->
+<html>
+	<head>
+		<title>Request Example</title>
+	</head>
+	<body>
+		<form method="POST" action="/urlshort">
+			Url to be shortned Do not include http:// : <input type="text" name="longurl">
+			<input type="submit">
+		</form>
+
+			<form method="POST" action="/qrurl">
+			Url to be generate to qrcode Do not include http:// : <input type="text" name="qrlongurl">
+			<input type="submit">
+				<img src="{{'qrurl'}}" alt="" title="" />
+		</form>
+	</body>
+</html>
